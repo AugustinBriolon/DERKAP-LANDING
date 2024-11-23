@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import Lines from "@/components/Lines";
+import Onboarding from "@/components/Onboarding";
 
 export default function Home() {
 
@@ -33,8 +34,11 @@ export default function Home() {
           </div>
         </div>
         <Lines textOne="Relève les Défis" textTwo="DERKAP" black />
-        <div className="h-screen"></div>
+        <Onboarding />
         <Lines textOne="Relève les Défis" textTwo="DERKAP" purple />
+        <div className="h-screen flex items-center justify-center">
+          <p className="text-center text-pretty w-3/4 text-2xl leading-10">Montre à tes amis que tu es toujours prêt pour un <span className="text-purple">défi</span>, peu importe où ils se trouvent. Avec <span className="text-purple">Derkap</span>, c&apos;est <span className="text-purple">fun</span>, <span className="text-purple">facile</span> et <span className="text-purple">intéractif</span>. Lance des défis chaque jour, partage des moments <span className="text-purple">inoubliables</span> et prouve que tu es le meilleur du groupe. Ne laisse plus la distance vous séparer, amusez-vous à <span className="text-purple">chaque instant</span> !</p>
+        </div>
       </div>
     </>
   );

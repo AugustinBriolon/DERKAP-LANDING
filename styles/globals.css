@@ -2,23 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-*::after,
-*::before {
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-/* @font-face {
-  font-family: 'Champ';
-  src: url('/font/Champ.woff2') format('woff2'),
-    url('/font/Champ.woff') format('woff'),
-    url('/font/Champ.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-} */
 
 
 .font-inter {
@@ -57,3 +46,8 @@ img {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.all-width-font {
+  font-size: 24.2vw;
+}
+

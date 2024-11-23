@@ -14,11 +14,13 @@ interface LinesProps {
 }
 
 export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const lineTextRight = useRef<HTMLDivElement>(null);
   const lineTextLeft = useRef<HTMLDivElement>(null);
 
   const scrollAnimation = () => {
-    if(!lineTextRight.current || !lineTextLeft.current) return;
+    if(!lineTextRight.current || !lineTextLeft.current || !containerRef.current) return;
+    
     const animateTextRight = lineTextLeft.current.querySelectorAll('p');
     const animateTextLeft = lineTextRight.current.querySelectorAll('p');
     
@@ -32,9 +34,12 @@ export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
         duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger:  document.documentElement,
+          trigger: containerRef.current,
           scrub: true,
-          start: 'top 85%',
+          start: 'top bottom',
+          end: 'bottom top',
+          // Décommenter pour debug
+          // markers: true,
         },
       }
     )
@@ -49,22 +54,28 @@ export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
         duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger:  document.documentElement,
+          trigger: containerRef.current,
           scrub: true,
-          start: 'top top',
-          end: 'bottom bottom',
+          start: 'top bottom',
+          end: 'bottom top',
+          // Décommenter pour debug
+          // markers: true,
         },
       }
     )
+
+    // Nettoyage des ScrollTriggers lors du démontage du composant
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }
 
   useGSAP(() => {
     scrollAnimation()
-  })
+  }, [])
 
   return (
-    <div className="h-32 w-full flex items-center justify-center">
-
+    <div ref={containerRef} className="h-32 w-full flex items-center justify-center">
       <div className={clsx("rotate-6 relative w-screen h-14 flex items-center justify-center gap-2", purple && "z-20")}>
         <div ref={lineTextRight} className="absolute bg-purple h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 md:gap-4">
           {Array.from({ length: 50 }, (_, i) => (
@@ -86,7 +97,6 @@ export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
           ))}
         </div>
       </div>
-
     </div>
   )
 }
