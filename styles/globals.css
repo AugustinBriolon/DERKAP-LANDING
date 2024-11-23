@@ -2,20 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: 'Champ';
+  src: url('/font/Champ.woff2') format('woff2'),
+    url('/font/Champ.woff') format('woff'),
+    url('/font/Champ.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-champ {
+  font-family: 'Champ', sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+html {
+  font-size: 62, 5%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Champ', sans-serif; /* Veille à ce que 'Champ' soit bien chargé */
+  line-height: 1.6;
+  background: linear-gradient(
+    to right,
+    rgba(246, 213, 247, 0.5),
+    rgba(251, 233, 215, 0.5)
+  );
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.center {
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
