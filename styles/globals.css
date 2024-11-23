@@ -10,7 +10,7 @@
   box-sizing: border-box;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Champ';
   src: url('/font/Champ.woff2') format('woff2'),
     url('/font/Champ.woff') format('woff'),
@@ -18,11 +18,8 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-}
+} */
 
-.font-champ {
-  font-family: 'Champ', sans-serif;
-}
 
 .font-inter {
   font-family: 'Inter', sans-serif;
@@ -33,7 +30,7 @@ html {
 }
 
 body {
-  font-family: 'Champ', sans-serif; /* Veille à ce que 'Champ' soit bien chargé */
+  font-family: var(--font-champ), sans-serif;
   line-height: 1.6;
   background: linear-gradient(
     to right,
