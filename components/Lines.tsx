@@ -14,60 +14,39 @@ interface LinesProps {
 }
 
 export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const lineTextRight = useRef<HTMLDivElement>(null);
   const lineTextLeft = useRef<HTMLDivElement>(null);
 
   const scrollAnimation = () => {
-    if(!lineTextRight.current || !lineTextLeft.current || !containerRef.current) return;
-    
-    const animateTextRight = lineTextLeft.current.querySelectorAll('p');
-    const animateTextLeft = lineTextRight.current.querySelectorAll('p');
-    
-    gsap.fromTo(
-      animateTextRight,
+    if (!lineTextRight.current || !lineTextLeft.current) return;
+
+    gsap.to(
+      lineTextRight.current,
       {
-        x: 0,
-      },
-      {
-        x: 150,
-        duration: 1,
-        ease: 'power2.out',
+        x: 200,
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: lineTextRight.current,
           scrub: true,
-          start: 'top bottom',
-          end: 'bottom top',
-          // Décommenter pour debug
-          // markers: true,
+          start: 'top bottom+=150vh',
+          end: 'bottom top-=150vh',
         },
       }
     )
 
-    gsap.fromTo(
-      animateTextLeft,
+    gsap.to(
+      lineTextLeft.current,
       {
-        x: 0,
-      },
-      {
-        x: -150,
+        x: -200,
         duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: lineTextLeft.current,
           scrub: true,
-          start: 'top bottom',
-          end: 'bottom top',
-          // Décommenter pour debug
-          // markers: true,
+          start: 'top bottom+=150vh',
+          end: 'bottom top-=150vh',
         },
       }
     )
-
-    // Nettoyage des ScrollTriggers lors du démontage du composant
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
   }
 
   useGSAP(() => {
@@ -75,26 +54,30 @@ export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
   }, [])
 
   return (
-    <div ref={containerRef} className="h-32 w-full flex items-center justify-center">
+    <div className="h-32 w-full flex items-center justify-center">
       <div className={clsx("rotate-6 relative w-screen h-14 flex items-center justify-center gap-2", purple && "z-20")}>
         <div ref={lineTextRight} className="absolute bg-purple h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 md:gap-4">
-          {Array.from({ length: 50 }, (_, i) => (
-            <div className="flex gap-4" key={`right-${i}`}>
-              <p className="text-white text-2xl text-nowrap uppercase">{textOne}</p>
-              <p className="text-white text-2xl">•</p>
-            </div>
-          ))}
+          {Array(50)
+            .fill(null)
+            .map((_, index) => (
+              <p key={index}>
+                <span className="text-white text-2xl text-nowrap uppercase">{textOne}</span>
+                <span className="text-white text-2xl ml-2 md:ml-4">•</span>
+              </p>
+            ))}
         </div>
       </div>
 
       <div className={clsx("-rotate-6 relative w-screen h-14 flex items-center justify-center gap-2", black && "z-20")}>
         <div ref={lineTextLeft} className="absolute bg-black h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 md:gap-4">
-          {Array.from({ length: 50 }, (_, i) => (
-            <div className="flex gap-4" key={`left-${i}`}>
-              <p className="text-white text-2xl text-nowrap uppercase">{textTwo}</p>
-              <p className="text-white text-2xl">•</p>
-            </div>
-          ))}
+        {Array(50)
+            .fill(null)
+            .map((_, index) => (
+              <p key={index}>
+                <span className="text-white text-2xl text-nowrap uppercase">{textTwo}</span>
+                <span className="text-white text-2xl ml-2 md:ml-4">•</span>
+              </p>
+            ))}
         </div>
       </div>
     </div>
