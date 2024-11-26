@@ -47,6 +47,10 @@ export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
         },
       }
     )
+
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    }
   }
 
   useGSAP(() => {
