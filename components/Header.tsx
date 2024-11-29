@@ -1,18 +1,19 @@
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-import Button from "./Button";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { useLenis } from "@studio-freight/react-lenis";
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
+import Button from './Button';
+import { useEffect, useState } from 'react';
+import { useLenis } from '@studio-freight/react-lenis';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const lenis = useLenis();
+  const tl = gsap.timeline();
 
   const timelineAnimation = () => {
-    gsap.timeline()
+    gsap
+      .timeline()
       .fromTo(
-        ".header-link",
+        '.header-link',
         {
           yPercent: 100,
         },
@@ -20,11 +21,11 @@ export default function Header() {
           yPercent: 0,
           duration: 0.8,
           stagger: 0.2,
-          ease: "power2.out",
+          ease: 'power2.out',
         }
       )
       .fromTo(
-        ".header-btn",
+        '.header-btn',
         {
           scale: 0.5,
           opacity: 0,
@@ -33,12 +34,12 @@ export default function Header() {
           scale: 1,
           opacity: 1,
           duration: 0.8,
-          ease: "elastic.out",
+          ease: 'elastic.out',
         },
-        "-=0.6"
+        '-=0.6'
       )
       .fromTo(
-        ".burger-line",
+        '.burger-line',
         {
           scaleX: 0,
         },
@@ -46,74 +47,85 @@ export default function Header() {
           scaleX: 1,
           duration: 0.5,
           stagger: 0.2,
-          ease: "power1.out",
+          ease: 'power1.out',
         },
-        "<"
+        '<'
       );
-  };
+    };
+    
 
   const openMenu = () => {
-    const tl = gsap.timeline();
-    
-    if (!isOpen) {
-      tl.fromTo(".nav-burger",
+    setIsOpen(!isOpen);
+
+    if (isOpen === true) {
+      lenis?.stop();
+      tl.fromTo(
+        '.nav-burger',
         {
-          height: "4rem"
+          height: '4rem',
         },
         {
-        height: "calc(100vh - 2.5rem)",
-        duration: 0.8,
-        ease: "power2.inOut",
-      })
-      .fromTo(
-        ".menu-container",
-        {
-          height: 0
-        },
-        {
-          height: "calc(100% - 10vh)",
+          height: 'calc(100vh - 2.5rem)',
           duration: 0.8,
-          ease: "power2.inOut"
-        },
-        "<"
+          ease: 'power2.inOut',
+        }
       )
-      .fromTo(
-        ".mobile-menu-item",
-        {
-          opacity: 0,
-          y: 20
-        },
+        .fromTo(
+          '.menu-container',
+          {
+            height: 0,
+            visibility: 'invisible',
+            scale: 0,
+          },
+          {
+            height: 'calc(100% - 10vh)',
+            visibility: 'visible',
+            scale: 1,
+            duration: 0.8,
+            ease: 'power2.inOut',
+          },
+          '<'
+        )
+        .fromTo(
+          '.mobile-menu-item',
+          {
+            opacity: 0,
+            y: 20,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            stagger: 0.1,
+            ease: 'power2.out',
+          },
+          '>'
+        );
+    } else {
+      lenis?.start();
+      tl.fromTo(
+        '.mobile-menu-item',
         {
           opacity: 1,
           y: 0,
-          duration: 0.4,
-          stagger: 0.1,
-          ease: "power2.out"
-        },
-        ">"
-      );
-    } else {
-      tl.fromTo(
-        ".mobile-menu-item",
-        {
-          opacity: 1,
-          y: 0
         },
         {
           opacity: 0,
           y: -20,
           duration: 0.4,
           stagger: 0.1,
-          ease: "power2.out"
+          ease: 'power2.out',
         }
-      ).to(".nav-burger", {
-        height: "4rem",
-        duration: .6,
-        ease: "power2.inOut"
-      }, ">");
+      ).to(
+        '.nav-burger',
+        {
+          height: '4rem',
+          duration: 0.6,
+          ease: 'power2.inOut',
+        },
+        '>'
+      );
     }
-    
-    setIsOpen(!isOpen);
   };
 
   useGSAP(() => {
@@ -121,51 +133,76 @@ export default function Header() {
   });
 
   useEffect(() => {
-    if (isOpen) {
-      lenis?.stop();
-    } else {
-      lenis?.start();
-    }
-  }, [isOpen, lenis]);
+    const showBurger = () => {
+      if (window.innerWidth < 639) {
+        setIsOpen(false);
+      } else {
+        setIsOpen(false);
+      }
+    };
+    showBurger();
+    window.addEventListener('resize', showBurger);
+    return () => {
+      window.removeEventListener('resize', showBurger);
+    };
+  }, []);
 
   return (
-    <div className="w-full max-w-screen-2xl container fixed top-5 left-1/2 -translate-x-1/2 px-2 z-50">
-      <nav className="nav-burger w-full px-4 py-2 rounded-xl border-2 border-black bg-white/50 backdrop-blur-md">
-        <div className="h-11 flex justify-between items-center">
-          <div className="overflow-hidden">
-            <a href="#hero" className="header-link text-black inline-block text-xl">
+    <div className='w-full max-w-screen-2xl container fixed top-5 left-1/2 -translate-x-1/2 px-2 z-50'>
+      <nav className='nav-burger h-16 w-full px-4 py-2 rounded-xl border-2 border-black bg-white/50 backdrop-blur-md'>
+        <div className='h-11 flex justify-between items-center'>
+          <div className='overflow-hidden'>
+            <a
+              href='#hero'
+              className='header-link text-black inline-block text-xl'
+            >
               DERKAP
             </a>
           </div>
 
-          <div className="hidden sm:flex items-center justify-center gap-8 overflow-hidden">
-            <a href="#how" className="header-link text-black font-inter font-bold text-sm inline-block">
+          <div className='hidden sm:flex items-center justify-center gap-8 overflow-hidden'>
+            <a
+              href='#how'
+              className='header-link text-black font-inter font-bold text-sm inline-block'
+            >
               COMMENT ÇA MARCHE
             </a>
-            <a href="#contact" className="header-link text-black font-inter font-bold text-sm inline-block">
+            <a
+              href='#contact'
+              className='header-link text-black font-inter font-bold text-sm inline-block'
+            >
               CONTACT
             </a>
           </div>
-          <div className="hidden sm:block header-btn">
+          <div className='hidden sm:block header-btn'>
             <Button />
           </div>
 
-          <div className="flex flex-col items-end gap-1 sm:hidden cursor-pointer" onClick={openMenu}>
-            <div className="burger-line h-[2px] w-5 rounded-full bg-black origin-right"></div>
-            <div className="burger-line h-[2px] w-5 rounded-full bg-black origin-right"></div>
-            <div className="burger-line h-[2px] w-3 rounded-full bg-black origin-right"></div>
+          <div
+            className='flex flex-col items-end gap-1 sm:hidden cursor-pointer'
+            onClick={openMenu}
+          >
+            <div className='burger-line h-[2px] w-5 rounded-full bg-black origin-right'></div>
+            <div className='burger-line h-[2px] w-5 rounded-full bg-black origin-right'></div>
+            <div className='burger-line h-[2px] w-3 rounded-full bg-black origin-right'></div>
           </div>
         </div>
 
-        <div className={clsx(isOpen && "pt-8", "menu-container")}>
-          <div className="h-full w-full flex flex-col items-center justify-center gap-24">
-            <a href="#how" className="mobile-menu-item text-black font-inter font-bold text-2xl inline-block text-center text-pretty">
+        <div className='invisible scale-0 menu-container'>
+          <div className='h-full w-full flex flex-col items-center justify-center gap-24'>
+            <a
+              href='#how'
+              className='mobile-menu-item text-black font-inter font-bold text-2xl inline-block text-center text-pretty'
+            >
               COMMENT ÇA MARCHE
             </a>
-            <a href="#contact" className="mobile-menu-item text-black font-inter font-bold text-2xl inline-block text-center">
+            <a
+              href='#contact'
+              className='mobile-menu-item text-black font-inter font-bold text-2xl inline-block text-center'
+            >
               CONTACT
             </a>
-            <div className="mobile-menu-item pt-10">
+            <div className='mobile-menu-item pt-10'>
               <Button />
             </div>
           </div>
