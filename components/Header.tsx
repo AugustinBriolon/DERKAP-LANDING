@@ -148,7 +148,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div className='w-full max-w-screen-2xl container fixed top-5 left-1/2 -translate-x-1/2 px-2 z-50'>
+    <div className='w-full max-w-screen-2xl container fixed top-5 left-1/2 -translate-x-1/2 px-2 xl:px-0 z-50'>
       <nav className='nav-burger h-16 w-full px-4 py-2 rounded-xl border-2 border-black bg-white/50 backdrop-blur-md'>
         <div className='h-11 flex justify-between items-center'>
           <div className='overflow-hidden'>

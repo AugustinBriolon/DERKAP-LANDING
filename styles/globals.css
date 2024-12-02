@@ -9,6 +9,11 @@
   box-sizing: border-box;
 }
 
+*::selection {
+  background-color: theme('colors.purple');
+  color: theme('colors.white');
+}
+
 
 .font-inter {
   font-family: 'Inter', sans-serif;
