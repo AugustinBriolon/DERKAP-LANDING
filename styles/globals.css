@@ -14,6 +14,9 @@
   color: theme('colors.white');
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}
 
 .font-inter {
   font-family: 'Inter', sans-serif;
@@ -54,10 +57,5 @@ img {
 
 .all-width-font {
   font-size: 24.2vw;
-}
-
-.no-scroll {
-  overflow: hidden;
-  height: 100%;
 }
 
