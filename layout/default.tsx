@@ -6,7 +6,7 @@ import { champFont } from '@/public/font/font';
 const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
-    <div className={`max-w-screen-2xl overflow-hidden mx-auto ${champFont.className}`}>
+    <div className={`overflow-hidden mx-auto ${champFont.className}`}>
       <Header />
       {children}
       <Footer />

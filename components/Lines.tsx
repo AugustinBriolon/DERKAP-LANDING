@@ -1,8 +1,8 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import clsx from "clsx";
-import { useRef } from "react";
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import { useRef, useMemo } from "react";
+import clsx from "clsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,77 +13,83 @@ interface LinesProps {
   black?: boolean;
 }
 
-export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
-  const lineTextRight = useRef<HTMLDivElement>(null);
-  const lineTextLeft = useRef<HTMLDivElement>(null);
+interface ScrollLineProps {
+  text: string;
+  direction: 'left' | 'right';
+  bgColor: string;
+  rotate: string;
+  zIndex?: boolean;
+}
 
-  const scrollAnimation = () => {
-    if (!lineTextRight.current || !lineTextLeft.current) return;
-
-    gsap.to(
-      lineTextRight.current,
-      {
-        x: 200,
-        scrollTrigger: {
-          trigger: lineTextRight.current,
-          scrub: true,
-          start: 'top bottom+=150vh',
-          end: 'bottom top-=150vh',
-        },
-      }
-    )
-
-    gsap.to(
-      lineTextLeft.current,
-      {
-        x: -200,
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: lineTextLeft.current,
-          scrub: true,
-          start: 'top bottom+=150vh',
-          end: 'bottom top-=150vh',
-        },
-      }
-    )
-
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    }
-  }
+const ScrollLine = ({ text, direction, bgColor, rotate, zIndex }: ScrollLineProps) => {
+  const lineRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    scrollAnimation()
-  }, [])
+    if (!lineRef.current) return;
+
+    const xValue = direction === 'right' ? 200 : -200;
+
+    gsap.to(lineRef.current, {
+      x: xValue,
+      scrollTrigger: {
+        trigger: lineRef.current,
+        scrub: true,
+        start: 'top bottom+=150vh',
+        end: 'bottom top-=150vh',
+      },
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [direction]);
+
+  const repeatedText = useMemo(() => (
+    Array(50).fill(null).map((_, index) => (
+      <p key={index} className="flex items-center">
+        <span className="text-white text-2xl text-nowrap uppercase">{text}</span>
+        <span className="text-white text-2xl ml-2 md:ml-4">•</span>
+      </p>
+    ))
+  ), [text]);
 
   return (
-    <div className="h-32 w-full flex items-center justify-center">
-      <div className={clsx("rotate-6 relative w-screen h-14 flex items-center justify-center gap-2", purple && "z-20")}>
-        <div ref={lineTextRight} className="absolute bg-purple h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 md:gap-4">
-          {Array(50)
-            .fill(null)
-            .map((_, index) => (
-              <p key={index}>
-                <span className="text-white text-2xl text-nowrap uppercase">{textOne}</span>
-                <span className="text-white text-2xl ml-2 md:ml-4">•</span>
-              </p>
-            ))}
-        </div>
-      </div>
-
-      <div className={clsx("-rotate-6 relative w-screen h-14 flex items-center justify-center gap-2", black && "z-20")}>
-        <div ref={lineTextLeft} className="absolute bg-black h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 md:gap-4">
-        {Array(50)
-            .fill(null)
-            .map((_, index) => (
-              <p key={index}>
-                <span className="text-white text-2xl text-nowrap uppercase">{textTwo}</span>
-                <span className="text-white text-2xl ml-2 md:ml-4">•</span>
-              </p>
-            ))}
-        </div>
+    <div className={clsx(
+      "relative w-screen h-14 flex items-center justify-center gap-2",
+      rotate,
+      zIndex && "z-20"
+    )}>
+      <div
+        ref={lineRef}
+        className={clsx(
+          "absolute h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+          "flex items-center justify-center gap-2 md:gap-4",
+          bgColor
+        )}
+      >
+        {repeatedText}
       </div>
     </div>
-  )
+  );
+};
+
+export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
+  return (
+    <div className="h-32 w-full flex items-center justify-center">
+      <ScrollLine
+        text={textOne}
+        direction="right"
+        bgColor="bg-purple"
+        rotate="rotate-6"
+        zIndex={purple}
+      />
+      <ScrollLine
+        text={textTwo}
+        direction="left"
+        bgColor="bg-black"
+        rotate="-rotate-6"
+        zIndex={black}
+      />
+    </div>
+  );
 }
