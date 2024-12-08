@@ -51,7 +51,7 @@ export default function Home() {
   return (  
     <div className="min-h-screen w-full">
       <div className="max-w-screen-2xl mx-auto h-screen py-32 flex flex-col items-center justify-start gap-16 md:gap-8 px-2 md:px-4">
-        <h1 className="hero-title w-full text-5xl text-center text-pretty">Tape toi des barres en <span className="text-purple">défiant</span> tes potes avec <span className="text-purple">DERKAP</span></h1>
+        <h1 className="hero-title w-full text-5xl text-center text-pretty">Avec <span className="text-purple">DERKAP</span> tape toi des barres en <span className="text-purple">défiant</span> tes potes</h1>
         <div className="overflow-hidden">
           <Image src="/images/img-hero.webp" alt="Trois téléphones montrant l'application Derkap" width={4188} height={3112} className="hero-img w-full h-auto md:h-full md:w-auto max-w-[1000px] object-contain" />
         </div>

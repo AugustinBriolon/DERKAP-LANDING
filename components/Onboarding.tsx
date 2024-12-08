@@ -79,6 +79,7 @@ export default function Onboarding() {
   return (
     <div
       ref={containerPin}
+      id='onboarding'
       className='max-w-screen-2xl h-screen w-full mx-auto mt-16'
     >
       <div className='h-screen w-full flex flex-col md:flex-row items-center justify-center gap-12'>

@@ -34,6 +34,7 @@ body {
     rgba(246, 213, 247, 0.5),
     rgba(251, 233, 215, 0.5)
   );
+  scroll-behavior: smooth;
 }
 
 

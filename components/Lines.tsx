@@ -1,8 +1,8 @@
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import { useRef, useMemo } from "react";
-import clsx from "clsx";
+import { useRef, useMemo } from 'react';
+import clsx from 'clsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,49 +21,66 @@ interface ScrollLineProps {
   zIndex?: boolean;
 }
 
-const ScrollLine = ({ text, direction, bgColor, rotate, zIndex }: ScrollLineProps) => {
+const ScrollLine = ({
+  text,
+  direction,
+  bgColor,
+  rotate,
+  zIndex,
+}: ScrollLineProps) => {
   const lineRef = useRef<HTMLDivElement>(null);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useGSAP(() => {
     if (!lineRef.current) return;
 
-    const xValue = direction === 'right' ? 200 : -200;
+    const baseXValue = direction === 'right' ? 200 : -200;
+    const xValue = isMobile ? baseXValue * 0.5 : baseXValue;
 
     gsap.to(lineRef.current, {
       x: xValue,
       scrollTrigger: {
         trigger: lineRef.current,
-        scrub: true,
+        scrub: isMobile ? 0.5 : true,
         start: 'top bottom+=150vh',
         end: 'bottom top-=150vh',
       },
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, [direction]);
+  }, [direction, isMobile]);
 
-  const repeatedText = useMemo(() => (
-    Array(50).fill(null).map((_, index) => (
-      <p key={index} className="flex items-center">
-        <span className="text-white text-2xl text-nowrap uppercase">{text}</span>
-        <span className="text-white text-2xl ml-2 md:ml-4">•</span>
-      </p>
-    ))
-  ), [text]);
+  const repeatCount = isMobile ? 30 : 50;
+  const repeatedText = useMemo(
+    () =>
+      Array(repeatCount)
+        .fill(null)
+        .map((_, index) => (
+          <p key={index} className='flex items-center'>
+            <span className='text-white text-2xl text-nowrap uppercase'>
+              {text}
+            </span>
+            <span className='text-white text-2xl ml-2 md:ml-4'>•</span>
+          </p>
+        )),
+    [text, repeatCount]
+  );
 
   return (
-    <div className={clsx(
-      "relative w-screen h-14 flex items-center justify-center gap-2",
-      rotate,
-      zIndex && "z-20"
-    )}>
+    <div
+      className={clsx(
+        'relative w-screen h-14 flex items-center justify-center gap-2',
+        rotate,
+        zIndex && 'z-20'
+      )}
+    >
       <div
         ref={lineRef}
         className={clsx(
-          "absolute h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-          "flex items-center justify-center gap-2 md:gap-4",
+          'absolute h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+          'flex items-center justify-center gap-2 md:gap-4',
           bgColor
         )}
       >
@@ -75,19 +92,19 @@ const ScrollLine = ({ text, direction, bgColor, rotate, zIndex }: ScrollLineProp
 
 export default function Lines({ textOne, textTwo, purple, black }: LinesProps) {
   return (
-    <div className="h-32 w-full flex items-center justify-center">
+    <div className='h-32 w-full flex items-center justify-center'>
       <ScrollLine
         text={textOne}
-        direction="right"
-        bgColor="bg-purple"
-        rotate="rotate-6"
+        direction='right'
+        bgColor='bg-purple'
+        rotate='rotate-6'
         zIndex={purple}
       />
       <ScrollLine
         text={textTwo}
-        direction="left"
-        bgColor="bg-black"
-        rotate="-rotate-6"
+        direction='left'
+        bgColor='bg-black'
+        rotate='-rotate-6'
         zIndex={black}
       />
     </div>

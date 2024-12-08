@@ -10,7 +10,7 @@ interface AnimationConfig {
 }
 
 const MENU_ITEMS = [
-  { href: '#how', text: 'COMMENT ÇA MARCHE' },
+  { href: '#onboarding', text: 'COMMENT ÇA MARCHE' },
   { href: '#contact', text: 'CONTACT' },
 ];
 
