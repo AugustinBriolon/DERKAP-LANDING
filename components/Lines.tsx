@@ -58,12 +58,18 @@ const ScrollLine = ({
       Array(repeatCount)
         .fill(null)
         .map((_, index) => (
-          <p key={index} className='flex items-center'>
-            <span className='text-white text-2xl text-nowrap uppercase'>
-              {text}
-            </span>
-            <span className='text-white text-2xl ml-2 md:ml-4'>•</span>
-          </p>
+          <span
+            key={index}
+            className='text-white text-2xl text-nowrap uppercase'
+          >
+            {text}
+          </span>
+          // <p key={index} className='flex items-center'>
+          //   <span className='text-white text-2xl text-nowrap uppercase'>
+          //     {text}
+          //   </span>
+          //   <span className='text-white text-2xl ml-2 md:ml-4'>•</span>
+          // </p>
         )),
     [text, repeatCount]
   );
@@ -80,7 +86,7 @@ const ScrollLine = ({
         ref={lineRef}
         className={clsx(
           'absolute h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-          'flex items-center justify-center gap-2 md:gap-4',
+          'flex items-center justify-center gap-2 md:gap-2',
           bgColor
         )}
       >
