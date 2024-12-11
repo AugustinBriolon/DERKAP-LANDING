@@ -147,6 +147,7 @@ export default function Header() {
       <a
         key={item.href}
         href={item.href}
+        onClick={handleMenuToggle}
         className={`${
           isMobile
             ? 'mobile-menu-item text-2xl text-center text-pretty'
@@ -159,7 +160,7 @@ export default function Header() {
   };
 
   return (
-    <div className="w-full max-w-screen-2xl container fixed top-5 left-1/2 -translate-x-1/2 px-2 xl:px-0 z-50">
+    <div className="w-full max-w-screen-2xl container fixed top-5 left-1/2 -translate-x-1/2 px-2 z-50">
       <nav className="nav-burger h-16 w-full px-4 py-2 rounded-xl border-2 border-black bg-white/50 backdrop-blur-md">
         <div className="h-11 flex justify-between items-center">
           <div className="overflow-hidden">
@@ -194,7 +195,7 @@ export default function Header() {
         <div className="invisible scale-0 menu-container">
           <div className="h-full w-full flex flex-col items-center justify-center gap-24">
             {renderMenuItems(true)}
-            <div className="mobile-menu-item pt-10">
+            <div className="mobile-menu-item pt-10" onClick={handleMenuToggle}>
               <Button />
             </div>
           </div>

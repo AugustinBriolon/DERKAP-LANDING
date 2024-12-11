@@ -37,8 +37,6 @@ body {
   scroll-behavior: smooth;
 }
 
-
-
 a {
   text-decoration: none;
   color: inherit;
@@ -60,5 +58,11 @@ img {
 
 .all-width-font {
   font-size: 24.2vw;
+}
+
+.shadow-element {
+  box-shadow: 5px 5px 0px 1px theme('colors.black');
+  -webkit-box-shadow: 5px 5px 0px 1px theme('colors.black');
+  -moz-box-shadow: 5px 5px 0px 1px theme('colors.black');
 }
 

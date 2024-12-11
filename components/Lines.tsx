@@ -64,12 +64,6 @@ const ScrollLine = ({
           >
             {text}
           </span>
-          // <p key={index} className='flex items-center'>
-          //   <span className='text-white text-2xl text-nowrap uppercase'>
-          //     {text}
-          //   </span>
-          //   <span className='text-white text-2xl ml-2 md:ml-4'>•</span>
-          // </p>
         )),
     [text, repeatCount]
   );
