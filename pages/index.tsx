@@ -9,7 +9,7 @@ const AnimatedText = dynamic(() => import('@/components/AnimatedText'), {
 
 export default function Home() {
   return (
-    <div className='min-h-screen w-full'>
+    <div className='w-full h-full'>
       <Hero />
       <Lines
         textOne='Relève les Défis • DERKAP •'

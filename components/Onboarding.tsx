@@ -80,9 +80,9 @@ export default function Onboarding() {
     <div
       ref={containerPin}
       id='onboarding'
-      className='max-w-screen-2xl h-screen w-full mx-auto mt-16'
+      className='max-w-screen-2xl h-[100dvh] w-full mx-auto mt-16'
     >
-      <div className='h-screen w-full flex flex-col md:flex-row items-center justify-center gap-12'>
+      <div className='h-full w-full flex flex-col md:flex-row items-center justify-end md:justify-center gap-12 pb-[10%] md:pb-0'>
         <div className='w-full md:w-1/2 h-[500px] relative'>
           <Image
             src='/images/mockup-iphone.webp'
